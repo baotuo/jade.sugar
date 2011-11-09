@@ -2,9 +2,9 @@
 <syntax name="language-root.jade">
   <zones>
     <!-- Root-level <zone> and <include> elements go here -->
-<!--    <zone name="keyword.storage.type">
+    <zone name="keyword.storage.type">
       <expression>(\s+|\b)(doctype|each|in|if|else|unless|include|mixin|block|extends)(\s+|\b)</expression>
-    </zone>-->
+    </zone>
     <zone name="keyword.storage.type">
       <expression>^(\!\!\!)(\s+|$)</expression>
     </zone>
