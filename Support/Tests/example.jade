@@ -1,0 +1,14 @@
+<!-- comment -->
+// comment
+!!! 5
+div
+  label Title:
+    input(name='document[title]', value=d.title || '')
+div
+  label Note:
+    textarea(name='document[data]')
+      =d.data || ''
+div
+  input(type='submit', value='Save')
+  each a in test
+#user #{name} &lt;#{email}&gt;
