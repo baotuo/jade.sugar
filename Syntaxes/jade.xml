@@ -2,9 +2,9 @@
 <syntax name="language-root.jade">
   <zones>
     <!-- Root-level <zone> and <include> elements go here -->
-    <zone name="keyword.storage.type">
+<!--    <zone name="keyword.storage.type">
       <expression>(\s+|\b)(doctype|each|in|if|else|unless|include|mixin|block|extends)(\s+|\b)</expression>
-    </zone>
+    </zone>-->
     <zone name="keyword.storage.type">
       <expression>^(\!\!\!)(\s+|$)</expression>
     </zone>
@@ -14,8 +14,33 @@
       <capture number="2" name="string.quoted"/>
       <capture number="3" name="punctuation.definition.end"/>
     </zone>
+    <zone name="js.code">
+      <expression>^\s*(\-)(.*)$</expression>
+      <capture number="1" name="keyword.storage.type"/>
+      <capture number="2">
+        <subzones>
+        	<include syntax="language-root.js"/>
+        </subzones>
+      </capture>
+    </zone>
+    <zone name="js.block">
+      <starts-with>
+        <expression>^([ \t]+)script\(type\=['"]text\/javascript['"].*\)</expression>
+        <capture number="0" name="tag.name">
+          <subzones>
+            <include collection="tag-with-attr"/>
+          </subzones>
+        </capture>
+      </starts-with>
+      <ends-with>
+        <expression>^(\1)$</expression>
+      </ends-with>
+      <subzones>
+      	<include syntax="language-root.js"/>
+      </subzones>
+    </zone>
     <zone name="tag.single">
-      <expression>^\s*([a-zA-Z0-9:_-]+)\s+</expression>
+      <expression>^\s*([a-zA-Z0-9:_-]+)=?\s+</expression>
       <capture number="1" name="name"/>
     </zone>
     <zone name="tag.with-id">
@@ -23,16 +48,8 @@
       <capture number="1" name="name"/>
       <capture number="2" name="name"/>
     </zone>
-    <zone name="tag.with-attr">
-      <expression>^\s*([a-zA-Z0-9:_-]+)\((.*)\)</expression>
-      <capture number="1" name="name"/>
-      <capture number="2" name="tag.attributes">
-        <subzones>
-          <include collection="tag-attributes"/>
-        </subzones>
-      </capture>
-    </zone>
-    <include collection="comments" />
+    <include collection="tag-with-attr"/>
+    <include collection="comments"/>
   </zones>
   
   <!-- The (optional) <library> tag contains collections of reusable zones -->
@@ -52,6 +69,18 @@
       		<expression>--></expression>
       		<capture number="0" name="punctuation.definition.end"/>
       	</ends-with>
+      </zone>
+    </collection>
+    
+    <collection name="tag-with-attr">
+      <zone name="tag.with-attr">
+        <expression>^\s*([a-zA-Z0-9:_-]+)\((.*)\)</expression>
+        <capture number="1" name="name"/>
+        <capture number="2" name="tag.attributes">
+          <subzones>
+            <include collection="tag-attributes"/>
+          </subzones>
+        </capture>
       </zone>
     </collection>
     
