@@ -25,7 +25,7 @@
     </zone>
     <zone name="js.block">
       <starts-with>
-        <expression>^([ \t]+)script\(type\=['"]text\/javascript['"].*\)</expression>
+        <expression>^([ \t]+)script\(type\=['"]text\/javascript['"]\)</expression>
         <capture number="0" name="tag.name">
           <subzones>
             <include collection="tag-with-attr"/>
@@ -33,7 +33,7 @@
         </capture>
       </starts-with>
       <ends-with>
-        <expression>^(\1)$</expression>
+        <expression>^(\1)(\S|$)</expression>
       </ends-with>
       <subzones>
       	<include syntax="language-root.js"/>
