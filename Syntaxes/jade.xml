@@ -9,7 +9,7 @@
       <expression>^(\!\!\!)(\s+|$)</expression>
     </zone>
     <zone name="tag.variable">
-      <expression>(?&lt;!\\)(\#\{)([\.a-zA-Z0-9:_-]+)(\})</expression>
+      <expression>(?&lt;!\\)(\#\{)([\.a-zA-Z0-9:_-\[\]]+)(\})</expression>
       <capture number="1" name="punctuation.definition.begin"/>
       <capture number="2" name="string.quoted"/>
       <capture number="3" name="punctuation.definition.end"/>
@@ -25,7 +25,7 @@
     </zone>
     <zone name="js.block">
       <starts-with>
-        <expression>^([ \t]*)script\(type\=['"]text\/javascript['"]\)$</expression>
+        <expression>^([ \t]*)script(\(type\=['"]text\/javascript['"]\))?$</expression>
         <capture number="0" name="tag.name">
           <subzones>
             <include collection="tag-with-attr"/>
@@ -33,7 +33,7 @@
         </capture>
       </starts-with>
       <ends-with>
-        <expression>^(\1\S|\1$|$)</expression>
+        <expression>^((?=\1\S)|\1$)</expression>
       </ends-with>
       <subzones>
       	<include syntax="language-root.js"/>
@@ -43,10 +43,32 @@
       <expression>^\s*([a-zA-Z0-9:_-]+)=?\s+</expression>
       <capture number="1" name="name"/>
     </zone>
-    <zone name="tag.with-id">
-      <expression>^\s*([a-zA-Z0-9:_-]*)[\.\#]([a-zA-Z0-9:_-]+)</expression>
+    <zone name="tag.div-with-ids">
+      <expression>^\s*((?:[\.\#][\w-]+)+)(?:\((.*)\))?</expression>
+      <capture number="1" name="tag.ids">
+        <subzones>
+          <include collection="tag-ids"/>
+        </subzones>
+      </capture>
+      <capture number="2" name="tag.attrs">
+        <subzones>
+          <include collection="tag-attributes"/>
+        </subzones>
+      </capture>
+    </zone>
+    <zone name="tag.with-ids">
+      <expression>^\s*([\w-]*)((?:[\.\#][\w-]+)+)(?:\((.*)\))?</expression>
       <capture number="1" name="name"/>
-      <capture number="2" name="name"/>
+      <capture number="2" name="tag.ids">
+        <subzones>
+          <include collection="tag-ids"/>
+        </subzones>
+      </capture>
+      <capture number="3" name="tag.attrs">
+        <subzones>
+          <include collection="tag-attributes"/>
+        </subzones>
+      </capture>
     </zone>
     <include collection="tag-with-attr"/>
     <include collection="comments"/>
@@ -69,6 +91,13 @@
       		<expression>--></expression>
       		<capture number="0" name="punctuation.definition.end"/>
       	</ends-with>
+      </zone>
+    </collection>
+    
+    <collection name="tag-ids">
+      <zone>
+        <expression>[\.\#]([\w-]+)</expression>
+        <capture number="1" name="name"/>
       </zone>
     </collection>
     
