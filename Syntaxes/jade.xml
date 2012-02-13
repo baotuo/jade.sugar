@@ -25,10 +25,11 @@
     </zone>
     <zone name="js.block1">
       <starts-with>
-        <expression>^([ \t]+)script(\(type\=['"]text\/javascript['"]\))?$</expression>
-        <capture number="0" name="tag.name">
+        <expression>^([ \t]+)(script)(?:\((type\=['"]text\/javascript['"])\))?$</expression>
+        <capture number="2" name="tag.name"/>
+        <capture number="3" name="tag.attrs">
           <subzones>
-            <include collection="tag-with-attr"/>
+            <include collection="tag-attributes"/>
           </subzones>
         </capture>
       </starts-with>
@@ -41,10 +42,11 @@
     </zone>
     <zone name="js.block2">
       <starts-with>
-        <expression>^script(\(type\=['"]text\/javascript['"]\))?$</expression>
-        <capture number="0" name="tag.name">
+        <expression>^(script)(?:\((type\=['"]text\/javascript['"])\))?$</expression>
+        <capture number="1" name="tag.name"/>
+        <capture number="2" name="tag.attrs">
           <subzones>
-            <include collection="tag-with-attr"/>
+            <include collection="tag-attributes"/>
           </subzones>
         </capture>
       </starts-with>
@@ -111,19 +113,7 @@
         <capture number="1" name="name"/>
       </zone>
     </collection>
-    
-    <collection name="tag-with-attr">
-      <zone name="tag.with-attr">
-        <expression>^\s*([a-zA-Z0-9:_-]+)\((.*)\)</expression>
-        <capture number="1" name="name"/>
-        <capture number="2" name="tag.attributes">
-          <subzones>
-            <include collection="tag-attributes"/>
-          </subzones>
-        </capture>
-      </zone>
-    </collection>
-    
+        
     <collection name="tag-attributes">
       <zone>
         <expression>\s*([a-zA-Z0-9:_-]+)(=)</expression>
