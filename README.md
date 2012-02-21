@@ -7,7 +7,7 @@ jade.sugar adds syntax highlight for [jade](http://jade-lang.com/) to [Espresso 
 **Requires Espresso 2**
 
     cd ~/Library/Application\ Support/Espresso/Sugars
-    git clone git://github.com:baotuo/jade.sugar.git
+    git clone git://github.com/baotuo/jade.sugar.git
 
 ## MIT License
 Copyright (C) 2011 by [baotuo](https://github.com/baotuo)
